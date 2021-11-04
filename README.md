@@ -58,27 +58,27 @@ if __name__ == "__main__":
 def test_search_in_books(self):
 
     pgCnt = 1 
-	pgUrl = "https://books.toscrape.com/index.html"
-	
-	while pgCnt > 0:
+    pgUrl = "https://books.toscrape.com/index.html"
     
-		if pgCnt > 1: pgUrl = "https://books.toscrape.com/catalogue/page-" + str(pgCnt) + ".html"
+    while pgCnt > 0:
+    	
+	if pgCnt > 1: pgUrl = "https://books.toscrape.com/catalogue/page-" + str(pgCnt) + ".html"
 
-		try:
-		    self.driver.get(pgUrl)
-		    current_page = page.CurrentPage(self.driver, self.info)
-		    self.info = current_page.get_current_page_info()
-		    current_page.click_next_button()
+	try:
+	    self.driver.get(pgUrl)
+	    current_page = page.CurrentPage(self.driver, self.info)
+	    self.info = current_page.get_current_page_info()
+	    current_page.click_next_button()
         
         except Exception as e:
-		    print(e)
-		    break
+	    print(e)
+	    break
 
-		finally:
-		    pgCnt += 1
+	finally:
+	    pgCnt += 1
 
-	df_info = pd.DataFrame(data=self.info)
-	df_info.to_csv('../out.csv', index=False)
+    df_info = pd.DataFrame(data=self.info)
+    df_info.to_csv('../out.csv', index=False)
 ```
 ---
 3. Include the interactions with the web pages
@@ -87,8 +87,9 @@ def test_search_in_books(self):
 ```
 class BasePage(object):
 
-	def __init__(self, driver):
-	    self.driver = driver
+    def __init__(self, driver, info):
+    	self.driver = driver
+	self.info = info
 
 class CurrentPage(BasePage):
 
@@ -98,14 +99,14 @@ class CurrentPage(BasePage):
             books = self.driver.find_elements(By.CSS_SELECTOR, "ol > li")
 
             for book in books:
-				book_name = book.find_element(By.CSS_SELECTOR, "h3 > a").get_attribute("title")
-				self.info["name"].append(book_name)
+		book_name = book.find_element(By.CSS_SELECTOR, "h3 > a").get_attribute("title")
+		self.info["name"].append(book_name)
 		
-		except Exception as e:
-			print(e)
+	except Exception as e:
+		print(e)
 
-		finally:
-			return self.info
+	finally:
+		return self.info
     
     def click_next_button(self):
     
@@ -113,9 +114,9 @@ class CurrentPage(BasePage):
             element = WebDriverWait(self.driver,10).until(EC.presence_of_element_located((By.LINK_TEXT, 'next')))
             element.click()
             
-		except Exception as e:
-		    print("no more pages")
-		    raise
+	except Exception as e:
+	    print("no more pages")
+	    raise
 ```
 ---
 4. Finally, build and run main.py
@@ -132,11 +133,11 @@ df_info.to_csv('../out.csv', index=False)
 
 ```
 try:
-	self.driver.get(pgUrl)
-	self.assertEqual("All products | Books to Scrape - Sandbox", self.driver.title, "webpage title does not match")
+    self.driver.get(pgUrl)
+    self.assertEqual("All products | Books to Scrape - Sandbox", self.driver.title, "webpage title does not match")
 
 except Exception as e:
-	print(e)
+    print(e)
 ```
 ![alt text](https://github.com/gerlau/SeleniumPythonWebScraper/blob/main/images/assert-result-example.png?raw=true)
 
