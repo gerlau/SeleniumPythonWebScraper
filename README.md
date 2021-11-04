@@ -1,6 +1,6 @@
 # What is this project about
-![alt text](https://github.com/gerlau/[reponame]/images/index-html.png?raw=true)
-![alt text](https://github.com/gerlau/[reponame]/images/out-csv.png?raw=true)
+![alt text](https://github.com/gerlau/SeleniumPythonWebScraper/images/index-html.png?raw=true)
+![alt text](https://github.com/gerlau/SeleniumPythonWebScraper/images/out-csv.png?raw=true)
 
 Learning how to scrape the web with Selenium in Python.
 - Navigate thru each page
@@ -138,7 +138,7 @@ try:
 except Exception as e:
 	print(e)
 ```
-![alt text](https://github.com/gerlau/[reponame]/images/assert-result-example.png?raw=true)
+![alt text](https://github.com/gerlau/SeleniumPythonWebScraper/images/assert-result-example.png?raw=true)
 
 # Acknowledgements
 - https://books.toscrape.com/index.html
