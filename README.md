@@ -1,4 +1,4 @@
-# What is this project about
+# What is this project about?
 ![alt text](https://github.com/gerlau/SeleniumPythonWebScraper/blob/main/images/index-html.png?raw=true)
 ![alt text](https://github.com/gerlau/SeleniumPythonWebScraper/blob/main/images/out-csv.png?raw=true)
 
