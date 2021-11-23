@@ -57,6 +57,13 @@ if __name__ == "__main__":
 ```
 def test_search_in_books(self):
 
+    info = {
+    	"name"	:[],
+	"rating":[],
+	"price"	:[],
+	"avail"	:[]
+    }
+
     pgCnt = 1 
     pgUrl = "https://books.toscrape.com/index.html"
     
@@ -65,10 +72,15 @@ def test_search_in_books(self):
 	if pgCnt > 1: pgUrl = "https://books.toscrape.com/catalogue/page-" + str(pgCnt) + ".html"
 
 	try:
-	    self.driver.get(pgUrl)
-	    current_page = page.CurrentPage(self.driver, self.info)
-	    self.info = current_page.get_current_page_info()
-	    current_page.click_next_button()
+	    books_page = page.BooksPage(self.driver, info)
+	    book_info = books_page.get_books_page_info()
+	    
+	    info["name"].extend(book_info["name"])
+	    info["rating"].extend(book_info["rating"])
+	    info["price"].extend(book_info["price"])
+	    info["avail"].extend(book_info["avail"])
+	    
+	    books_page.click_next_button()
         
         except Exception as e:
 	    print(e)
@@ -94,13 +106,20 @@ class BasePage(object):
 class CurrentPage(BasePage):
 
     def get_current_page_info(self):
+    	
+	info = {
+	    "name"  :[],
+	    "rating":[],
+	    "price" :[],
+	    "avail" :[]
+	}
     
         try: 
             books = self.driver.find_elements(By.CSS_SELECTOR, "ol > li")
 
             for book in books:
 		book_name = book.find_element(By.CSS_SELECTOR, "h3 > a").get_attribute("title")
-		self.info["name"].append(book_name)
+		info["name"].append(book_name)
 		
 	except Exception as e:
 		print(e)
