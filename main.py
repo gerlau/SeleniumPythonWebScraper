@@ -19,15 +19,6 @@ class BooksSearch(unittest.TestCase):
 
 	    self.driver = webdriver.Chrome(service=Service("C:\Program Files (x86)\chromedriver.exe"))
 
-	    ''' insert declaration of variables here to export extracted information '''
-
-	    self.info = {
-	    	"name"	:[],
-	    	"rating":[],
-	    	"price"	:[],
-	    	"avail"	:[]
-	    } 
-
 	def tearDown(self):
 		
 		# time.sleep(10)
@@ -37,7 +28,16 @@ class BooksSearch(unittest.TestCase):
 		self.driver.quit()
 
 	def test_search_in_books(self):
+		
+		''' insert declaration of variables here to export extracted information '''
 
+		info = {
+			"name"	:[],
+			"rating":[],
+			"price"	:[],
+			"avail"	:[]
+		} 
+		
 		''' insert codes here to specify what to do with the Chrome driver at a high level '''
 
 		pgCnt = 1 
@@ -61,10 +61,15 @@ class BooksSearch(unittest.TestCase):
 			try:
 				self.driver.get(pgUrl)
 
-				current_page = page.CurrentPage(self.driver, self.info)
-				self.info = current_page.get_current_page_info()
+				books_page = page.BooksPage(self.driver, info)
+				book_info = books_page.get_books_page_info()
+				
+				info["name"].extend(book_info["name"])
+				info["rating"].extend(book_info["rating"])
+				info["price"].extend(book_info["price"])
+				info["avail"].extend(book_info["avail"])
 
-				current_page.click_next_button()
+				books_page.click_next_button()
 
 			except Exception as e:
 				print(e)
