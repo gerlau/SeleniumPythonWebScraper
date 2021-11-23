@@ -10,12 +10,19 @@ class BasePage(object):
 		self.driver = driver
 		self.info = info
 
-class CurrentPage(BasePage):
+class BooksPage(BasePage):
 
 	''' insert codes here to specify what to do with the Chrome driver at the implementation level '''
 
-	def get_current_page_info(self):
-
+	def get_books_page_info(self):
+		
+		info = {
+			"name"	:[],
+			"rating":[],
+			"price"	:[],
+			"avail"	:[]
+		}
+		
 		try: 
 			books = self.driver.find_elements(By.CSS_SELECTOR, "ol > li")
 
@@ -23,19 +30,21 @@ class CurrentPage(BasePage):
 
 				# get book name
 				book_name = book.find_element(By.CSS_SELECTOR, "h3 > a").get_attribute("title")
-				self.info["name"].append(book_name)
+				info["name"].append(book_name)
 
 				# get book rating
 				book_rating = book.find_element(By.CSS_SELECTOR, "article > p").get_attribute("class")
-				self.info["rating"].append(book_rating)
+				info["rating"].append(book_rating)
 
 				# get book price
 				book_price = book.find_elements(By.CSS_SELECTOR, ".product_price > p")[0].text
-				self.info["price"].append(book_price)
+				info["price"].append(book_price)
 
 				# get book availability
 				book_avail = book.find_elements(By.CSS_SELECTOR, ".product_price > p")[1].text
-				self.info["avail"].append(book_avail)
+				info["avail"].append(book_avail)
+			
+			return info
 		
 		except Exception as e:
 			print(e)
